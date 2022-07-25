@@ -1,10 +1,5 @@
 import java.io.InputStream;
-import java.net.URI;
 import java.net.URL;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.net.http.HttpResponse.BodyHandlers;
 import java.util.List;
 import java.util.Map;
 
@@ -16,36 +11,44 @@ public class App {
          * 3- exibit e manipular os dados;
          */
 
-        String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java/api/TopMovies.json";
-        URI endereco = URI.create(url);
-        var client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder(endereco).GET().build();
-        HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
-        String body = response.body();
+        //String url ="https://raw.githubusercontent.com/alura-cursos/imersao-java/api/TopMovies.json";
+         //String url ="https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY";
+        //String url = "https://api.mocki.io/v2/549a5d8b/NASA-APOD";
+        String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java/api/NASA-APOD.json";
+
+         var http = new ClientHttp();
+         String json = http.buscaDados(url);
 
         // extraio os dados que interessam
-        JsonParse jsonParse = new JsonParse();
-        List<Map<String, String>> listaFilmes = jsonParse.parse(body);
+        var extrator = new ExtratorConteudoNasa();
+        List<Conteudo> conteudos = extrator.extraiConteudo(json);
+
         GeradoraDeFigurinhas geradoraDeFigurinhas = new GeradoraDeFigurinhas();
 
-        for (Map<String, String> filme : listaFilmes) {
+        for (Conteudo conteudo :  conteudos) {
 
-            InputStream inputStream = new URL(filme.get("image")).openStream();
+            // InputStream inputStream = new URL(filme.get("image")).openStream();
+            InputStream inputStream = new URL(conteudo.getUrl()).openStream();
 
-            String titulo = filme.get("title");
+            String titulo = conteudo.getTitulo();
             geradoraDeFigurinhas.criarFigurinha(inputStream, titulo + ".png");
 
-            System.out.println(filme.get("title"));
-            System.out.println(filme.get("imDbRating"));
-            String nota = filme.get("imDbRating");
-            Double avaliacao = Double.parseDouble(nota);
-            if (avaliacao >= 9.0) {
-                System.out.println("Filme Bão\n");
-                
-
-            } else {
-                System.out.println("Filme Meia Boca\n");
-            }
+            System.out.println(conteudo.getTitulo());
+            /*
+             * System.out.println(filme.get("imDbRating"));
+             * //String nota = filme.get("imDbRating");
+             * /Double avaliacao = Double.parseDouble(nota);
+             * if (avaliacao >= 9.0) {
+             * // System.out.println("Filme Bão\n");
+             * System.out.println(colorize("Filme Bão", RED_TEXT()));
+             * System.out.println("\n");
+             * 
+             * 
+             * 
+             * } else {
+             * System.out.println("Filme Meia Boca\n");
+             * }
+             */
         }
 
         //

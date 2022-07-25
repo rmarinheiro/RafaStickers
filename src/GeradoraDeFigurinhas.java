@@ -31,7 +31,7 @@ public class GeradoraDeFigurinhas {
 
         graphics.drawString("RafaStick", 80, novaAltura - 100);
 
-        ImageIO.write(novaImagem, "png", new File(nomeArquivo));
+        ImageIO.write(novaImagem, "jpg", new File(nomeArquivo));
 
        
 
