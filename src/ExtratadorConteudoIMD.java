@@ -5,7 +5,7 @@ import java.util.Map;
 public class ExtratadorConteudoIMD implements ExtratorDeConteudo {
     
 
-    public List<Conteudo> extraiConteudo(String json){
+    public List<Conteudo>  extraiConteudo(String json){
         JsonParse jsonParse = new JsonParse();
         List<Map<String, String>> listaDeAtributos = jsonParse.parse(json);
 

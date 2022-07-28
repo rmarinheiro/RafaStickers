@@ -14,13 +14,14 @@ public class App {
         //String url ="https://raw.githubusercontent.com/alura-cursos/imersao-java/api/TopMovies.json";
          //String url ="https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY";
         //String url = "https://api.mocki.io/v2/549a5d8b/NASA-APOD";
-        String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java/api/NASA-APOD.json";
+        //String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java/api/NASA-APOD.json";
+        String url = "http://localhost:8081/linguagens";
 
          var http = new ClientHttp();
          String json = http.buscaDados(url);
 
         // extraio os dados que interessam
-        var extrator = new ExtratorConteudoNasa();
+        var extrator = new ExtratadorConteudoIMD();
         List<Conteudo> conteudos = extrator.extraiConteudo(json);
 
         GeradoraDeFigurinhas geradoraDeFigurinhas = new GeradoraDeFigurinhas();
